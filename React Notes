@@ -94,6 +94,6 @@ In mounting, 4 phases present
 1. Constructor is called(Because of class component)
 2. render method is called
 3. child methods are called
-4. componenetDidMount is called
+4. componenetDidMount is called 
 
 --when we want to make an API call we need to write in componenetDidMount() method only why because we will set the value to state so if we write inside the render method means everytime state update there will be render call and it keep on going. So we write in the componenetDidMount()
