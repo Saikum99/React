@@ -1,0 +1,99 @@
+**---------------------- React Notes -----------------------------**
+
+**Day-1 :**
+
+node -v 	-- to check the version of the node
+npx create-react-app my-app	--to create react app with basic structure
+npm start	-- to start the app(need to run to go to inside the folder "my-app")
+
+**Day-3 :**
+
+--Inline styling in react is written as object form inside the {}
+
+Ex: <h1 style = { {color:red, backgroundColor:blue} }></h1>
+
+--here backgroundColor is must be in Camal casing not like background-color
+
+exports are 2 types
+
+1. named	declare export before the class
+2. default	declare at the end of the file
+
+--In a file many named exports will be present but only one default export
+
+--default exports can be declares any name in import but named exports must have the same name and imported using like  "{App}"
+
+Ex: 
+For import--
+import App,{About} from "./Tab"	(here About is named and App is default)
+For export--
+default -- export default App
+named -- export class();
+
+--In react class declaration for element is declared using the className;
+Ex: <h1 className="Head"></h1>
+
+--index.module.css, a file created like this which is called as css modules in react which contains all the styles and the extension must me ".module.css"
+--we have import like this	(import styles as "./index.module.css")
+and access like this	(styles.property) why because it will return an object
+
+--direct css import will create confusion because if we use the same class name for other elements, the styles will be applied to that element also without necessary
+direct import	--import "./index.css"
+
+--<React.Fragment>
+<h2>This is heading</h2>
+<p>This is para</p>
+</React.Fragment>
+--the above is used to return multiple elements without div
+--in general we are allowed to return only one element, so to multiple we need to put inside a div, but it will create an extra div which is not required. So we use Fragment
+-- the short hand property for Fragment is 
+<>
+</>
+
+--Components can be created in 2 ways in react 
+1. class based
+2. function based
+Now a days only function based are creating.
+Ex: For class component
+class App extends Component {
+  //Count = 0;
+  state = {
+    Count: 0
+  }
+  handleInc() {
+    this.setState({ Count: this.state.Count + 1 })
+  }
+  handleDec() {
+    this.setState({ Count: this.state.Count - 1 })
+  }
+  render() {
+    return (
+      <>
+        <button onClick={() => { this.handleDec() }}>-</button> <span style={{color: "red",backgroundColor:"blue"}}>Count - {this.state.Count}</span > <button onClick={() => { this.handleInc() }}>+</button>
+      </>
+    )
+  }
+}
+export default App;
+
+--here in the above example, setState() is a method that is used to change the value
+--state is simply an object that used to store the data
+--we can also update directly the value but it will not reflect in the render because render is called only once
+--but in setState() after updation the render is called automatically.
+--In onClick, function is called with arrow function why because if we write directly means without clicking the button it will be called, if we use arrow function means it wont call until we click.
+--And important is the object name state is must be state only other names not work.
+
+
+--Life Cycle of components--
+There are 3 phases
+1. Mounting phase
+2. Updation phase
+3. Unmounting phase
+
+In mounting, 4 phases present
+1. Constructor is called(Because of class component)
+2. render method is called
+3. child methods are called
+4. componenetDidMount is called
+
+--when we want to make an API call we need to write in componenetDidMount() method only why because we will set the value to state so if we write inside the render method means everytime state update there will be render call and it keep on going. So we write in the componenetDidMount()
