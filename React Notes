@@ -97,3 +97,38 @@ In mounting, 4 phases present
 4. componenetDidMount is called 
 
 --when we want to make an API call we need to write in componenetDidMount() method only why because we will set the value to state so if we write inside the render method means everytime state update there will be render call and it keep on going. So we write in the componenetDidMount()
+
+
+
+
+(11-25-2025)
+--Function based components
+--useState() is used to create the state like in class component.
+--This will return 2 things(value,function), function is used to update the value
+--var [val,setVal] = useState(10)	(here destructuring happening)
+--destructuring means saving the values directly that are present in the other value
+--We can pass any kind of values like objects,arrays etc
+--setVal(20)	this function is for setting the value 
+
+useEffect() hook:
+--This is the combination of componenetDidMount() and componenetDidUpdate()
+--It is called in rendering and also updation
+Ex: useEffect(()=>{})
+--If you want to execute componenetDidMount(), we have to pass a second argument [] array to the hook
+Ex: useEffect(()=>{},[])
+--In the above, in array we have to pass a value that you want to make the that particular thing as componenetDidUpdate()
+Ex:
+If we have two states,
+const[val1,setVal1] = useState(0);
+const[val2,setVal2] = useState(0);
+
+useEffect(()=>{},[val2])
+if we pass like this means it will work like componenetDidUpdate() for val2 only.
+
+--To ComponentWillUnmount() method(which will execute when the component is right before removed or destroyed form the dom) we have to write like this
+Ex: useEffect(()=>{
+return ()=>{}
+})
+
+--controlled components is the inputs from the components are handled by the state(like binding the values from the state)
+
