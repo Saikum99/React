@@ -6,6 +6,26 @@ node -v 	-- to check the version of the node
 npx create-react-app my-app	--to create react app with basic structure
 npm start	-- to start the app(need to run to go to inside the folder "my-app")
 
+Day-2:
+Package.json	--contains all the required libraries that are declared like versions
+ReactApp	--contains only one index page (Present in public folder)
+--All the components are rendered in index under div with id called root
+--this happens because of index.js which is entry point
+--Node modules contains all the packages
+--npm install packageName (used to install packages)
+--to access a component we have to write like this
+<ComponetName />
+--all the components are rendered in index.js
+--package-lock.json	--locks the version of the package to use same version for all developers
+--the code writing in components is not html it is JSX(javascript XML)
+--React.CreateElement("h1",{},"This is head")	--this is used for creating elements in react
+above the 2nd object is the parameters to the tag like style etc
+--but it heavy for large page
+--So Bable(a tool) came to convert the jsx code to react element
+--in JSX we call elements and also functions
+let head=<h2>Hi</h2>	this is posible
+
+
 **Day-3 :**
 
 --Inline styling in react is written as object form inside the {}
@@ -98,7 +118,55 @@ In mounting, 4 phases present
 
 --when we want to make an API call we need to write in componenetDidMount() method only why because we will set the value to state so if we write inside the render method means everytime state update there will be render call and it keep on going. So we write in the componenetDidMount()
 
+Day-4(23-11-25)
 
+Props: 
+--These are the values passed to the components
+Ex:
+<Home 
+a="Sai"
+c={10}
+d={[10,20,30]}
+oj={{a:10,c:"Sai"}}
+/>
+--Like this we can pass values, for values other than strings we have to pass with in {}.
+--We can access the values like {this.props.a} like this in clild Component
+
+Updation cycle:
+--Here first ShouldComponentUpdate() method is called 
+then render() method is called
+then child Component are called
+then ComponentDidUpdate() method is called
+
+--ShouldComponentUpdate() is written like this
+ShouldComponentUpdate(nextState,nextProp){
+if(this.state.count==nextState.count)
+{return false}
+else
+{return false}
+}
+
+--this is for state checking 
+--Same for prop checking also but in child Component
+
+--ComponentDidUpdate() method is used if you do anything after any updation happend
+
+Unmount cycle:
+--ComponentWillUnmount() method is called when no longer the child method is called(Like by removing the child Component from main cComponent)
+--this method is useful when you want to remove the local storage or any other this from the Component.
+
+All these are used in the class based Component but after introduction of hooks now everyone are using the function based Component
+
+--In the above the ShouldComponentUpdate() is used to check updated or not, but we have alternate method to do the same that is PureComponent is imported which will automatically check the updation
+--So insted of component in extends(class declaration) we have to use PureComponent
+
+--At the time of document load the react will create the virtual DOM(lightweight copy of the dom) that is a lightweight, so when there is a change in the webpage then this virtual dom will compare the both the doms and apply the changes in that dom only, so there is so much of fastness this is called as "ReConcillation" process.
+--This is why the react is fast.
+--When the state is updated then the virtual dom will compare with the original dom and then changes are displayed and the old virtual dom will turn to new virtual dom.
+
+Hooks:
+--Hooks are simplay functions in react that allow us to use states and other react features like life cycle methods
+--It is introduced in v-16.8
 
 
 (11-25-2025)
@@ -132,3 +200,21 @@ return ()=>{}
 
 --controlled components is the inputs from the components are handled by the state(like binding the values from the state)
 
+
+
+(26-11-25)h
+--The things that are rendering depends on condition is called conditional rendering.
+
+To make a call synchronous we have to pass like this
+function handleInc(){
+	setCount((prevVal)=>{
+		return prevVal+1
+	})
+	setCount((prevVal)=>{
+		return prevVal+1
+	})
+	setCount((prevVal)=>{
+		return prevVal+1
+	})
+}
+now this is synchronous we  can this when previous state is depends on next state.
