@@ -218,3 +218,30 @@ function handleInc(){
 	})
 }
 now this is synchronous we  can this when previous state is depends on next state.
+
+(27/11/25)W
+Routing:
+--To use routing in react we have to install "react-rouder-dom"
+--We have to import BrowserRouter from the above package
+-- BrowserRouter is a component that is used make sync with router and HTML history.
+--It will allow navigations and different routs for different components.
+Ex:
+<>
+      <BrowserRouter>
+      <Home />
+        <Routes>
+          <Route path="/" />
+          <Route path="/About" element={<About />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="*" element={<p> Page not found </p>} />
+        </Routes>
+      </BrowserRouter>
+    </>
+
+--In the above all the routes are keep inside the <Routes>
+--If you want to make a component static for all routes, we have place above the <Routes> like we put the <Home /> component.
+--To make a link in react we have to use Link tag coming from the "react-rouder-dom"
+-- We need to import "react-rouder-dom" in the child components to give links
+Ex: <Link to={"/About"}> About </Link>
+--So that the page wont be refreshed 
+-- If we use direct ancor tag means the page will be refreshed.
