@@ -245,3 +245,75 @@ Ex:
 Ex: <Link to={"/About"}> About </Link>
 --So that the page wont be refreshed 
 -- If we use direct ancor tag means the page will be refreshed.
+
+--(28-11-25)
+--We cannot pass data from child component to parent component but we can pass from parent to child called props
+--But we can control the data of parent component in child component by passing the function in props
+--In child component the function is being called 
+--If we to access the child component in the parent component that we have to declare in the parent component and set the value(By passing function in prop) in the parent child component this is called "state up lifting"
+
+--If you want to make an active link we have to use NavLink insted of Link
+Ex: <NavLink to="/Products" activeClassName="active"> Products </NavLink>
+    <NavLink to="/" activeClassName="active"> Home </NavLink>
+
+after this we can give styles to active class 
+--Here what happens is when we click on a link that link element will get the active as class name and not for remaining
+
+
+(03-12-25)
+--useNavigate() is hook used to pass the parameters through url
+--useParams() is a hook that is used to get the values from the url.
+--These 2 are coming from the "react-router-dom"
+--propTypes is used to set the datatype of the props
+--We need to import propTypes (import PropTypes from 'prop-types')
+Ex : 
+function UserProfile(props) {
+  return (
+    <div>
+      <h1>{props.name}</h1>
+      <p>Age: {props.age}</p>
+    </div>
+  );
+}
+
+UserProfile.propTypes = {
+  name: PropTypes.string, // 'name' must be a string and is required
+  age: PropTypes.number,             // 'age' must be a number, but is optional
+};
+
+--Here if age is string passed as string means it will show an warning in the console
+--PropTypes.string.isRequired (this make the value as required value)
+-- Basic Types: PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.func, PropTypes.object, PropTypes.array, PropTypes.symbol
+--PropTypes.any.isRequired (this means the value should be any of type but it is required)
+--PropTypes.oneOfType([PropTypes.string, PropTypes.number]) (this means the value should one of type string or number)
+--PropTypes.oneOf(["Loading","Ready"]) (this means the value should be "Loading","Ready" only)
+
+--useMemo is another hook that is used to execute a function when ever an update happend and not execute when not required.
+Ex:
+let amount = 10;
+let value = useMemo(() => {
+for (let i = 0; i < 1000000000; i++) {} // slow loop
+    return num * 2;
+},amount)
+
+--Here in the above example useMemo is executed when the amount is updated only
+--The main purpose this is to avoid unnecessary calling of the function and it return a value.
+
+Higher order components
+--Is a patterns where a functions receives component as an argument and return a new component that is enhanced version of sended component
+
+--useCallBack()
+--In a component if we written internal helper function that if we update the state the entire component is recreated, that will create the internal function also but we dont need actually 
+So to avoid this we have to use useCallBack() hook
+Ex: 
+let fun = useCallBack(()=>{
+setCount(count + 1);
+},[count])
+
+--React.memo() is used to avoid render the component if there is no change in the value
+Ex:
+let fun = React.memo((props)=>{
+return (<button onClick(()={ props.increaseValue})>Increase</button>)
+})
+
+--The main difference b/w useMemo and useCallBack is useMemo will return a value where as useCallBack will return a function and shop recreating the function if not state update
