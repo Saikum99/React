@@ -317,3 +317,96 @@ return (<button onClick(()={ props.increaseValue})>Increase</button>)
 })
 
 --The main difference b/w useMemo and useCallBack is useMemo will return a value where as useCallBack will return a function and shop recreating the function if not state update
+
+(4-12-2025)
+--Prop drilling is the process of sending the data to other components by passings to its parents components.
+Ex: If we have 3 components App, Home and Profile, App is the parent of remaining 2 components, if we want to send the data from Home to profile component than we have to pass first to parent component App and then to Profile (directly not posible).
+-- The entire above process is called as prop drilling.
+
+--But this is not a good process because we are unnecessarily passing the data.
+--We can avoid this by using redux.
+
+Redux:
+It is central store for storing the data
+--If you want to access data from redux first the component need to subscribe to the redux.
+--Only the reducer can able to add or update the data in the redux.
+--To use redux we need to import "react-redux" and "redux"
+--reducer is just a function(component) that return something the value that is returned will be stored in redux
+let reducer = (state,action)=>{
+return state;
+}
+
+--To setup a redux store we have to import createStore from redux and Provider from the react-redux.
+let reduxStore = createStore(reducer)
+Provider is imported because we have created the store but react dont know it so we need to do this.
+<provider store = {reduxStore}>
+<App />
+</provider >
+
+--Like this we need to declare components inside the Provider and pass the store as a prop.
+--To access the data in redux inside the component we have to subscribe 
+--To do it we need to import connect from the "react-redux"
+--And in export we have to like this
+
+let mapStateToProps = (state)=>{
+  return state;
+}
+export default connect(mapStateToProps)(App);
+--Here now the redux data is passed to the App component.
+--The above syntax is calling the inner function that is present in a function.
+Ex: 
+function outerFunction(){
+return innerFunction(){}
+}
+Here to call the innerFunction we have to follow the syntax.(outerFunction()())
+
+--Upto now we have created the store and access the data in App component
+--redux data update--
+--To do this we need dispatch an action to reducer
+Ex: 
+let mapDispatchToProps = (Dispatch) => {
+  return {
+    changeName: () => {
+      Dispatch({ type: "change_Name", payload: "b" })
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+in App component (<button onClick={()=>{props.changeName("b")}}>ChangeName</button>)
+--Now a dispatch is issued
+--Now we have to handle this dispatch in the redurer and change the data 
+Ex: 
+Reducer.js
+let userData = { Name:"a", Age:20 }
+const Reducer = (state=userData,action)=>{
+    if(action.type == "change_Name"){
+        return {
+            ...state,	//This is using to avoid loss of data
+            Name : action.payload
+        }
+    }
+    return state;
+}
+export default Reducer
+
+--Like this we can update the data in the redux 
+--Now we can able to access the data in other components by creating subscribing
+Ex:
+Child.js
+import { connect } from "react-redux"
+const Child1 = (props) => {
+return(
+    <>
+    <p>Name: {props.Name}</p>
+    </>
+)
+}
+let makeStateToProp = (state) => {
+    return state
+}
+export default connect(makeStateToProp)(Child1)
+
+--Simply we can create redux in these steps
+1. Create store and say to react using provider(By installing "redux", "react-redux" and import createStore from redux)
+2. Access the values by creating subscription (importing the connect from react-redux)
+3. create reducer for updation (separate component for reducer and handle dispatch actions)
