@@ -259,7 +259,6 @@ Ex: <NavLink to="/Products" activeClassName="active"> Products </NavLink>
 after this we can give styles to active class 
 --Here what happens is when we click on a link that link element will get the active as class name and not for remaining
 
-
 (03-12-25)
 --useNavigate() is hook used to pass the parameters through url
 --useParams() is a hook that is used to get the values from the url.
@@ -410,3 +409,129 @@ export default connect(makeStateToProp)(Child1)
 1. Create store and say to react using provider(By installing "redux", "react-redux" and import createStore from redux)
 2. Access the values by creating subscription (importing the connect from react-redux)
 3. create reducer for updation (separate component for reducer and handle dispatch actions)
+
+
+(06-12-25)
+Redux Thunk:
+--Generally if we want to perform an api and store the data in redux we have to make a call in dispatch
+Ex: 
+let mapDispatchToProps = (Dispatch) => {
+  return {
+    changeName: () => {
+	axios.get("url").then((res)=>{
+		Dispatch({ type: "change_Name", payload: res.data[0].Name })
+		})
+    }
+  }
+}
+Like this we have to do
+--But Redux Thunk is used to do it 
+--So it is a special helper that is used to make async task operations(Like API calls) before dispatching the state. It is a middleware that will return a function instead of plain object.
+--To implement this we need one more package that is "redux-thunk"
+--Import thunk from "redux-thunk" and addMiddleware from redux
+--Now we have to pass a middleware
+Ex: let reduxStore = createStore(reducer,addMiddleware(thunk))
+
+--After this we have to do like this
+Ex: 
+let thunk = ()=>{
+	axios.get("url").then((res)=>{
+		Dispatch({ type: "change_Name", payload: res.data[0].Name })
+		})
+}
+let mapDispatchToProps = (Dispatch) => {
+  return {
+    changeName: () => {
+	Dispatch(thunk())
+    }
+  }
+}
+--Now we are passing function as argument insted of plain object
+
+Redux Toolkit:
+--Before this all people feel like 
+1. Difficult to implement
+2. Adding more packages
+3. More code
+
+--After this the thinks become easy
+
+Steps:
+For Creation:
+--To implement this we need to install "@reduxjs/toolkit"
+--To create store we have to import configureStore hook from "@reduxjs/toolkit" and 
+let store = configureStore({
+  reducer : Reducer
+})
+
+This store is passed as store for provider.
+
+In reducer:
+--we have import createReducer from "@reduxjs/toolkit" and create write like this
+import { createReducer } from "@reduxjs/toolkit"
+
+let initialState = {
+Name:"a",Age:10
+}
+const Reducer = createReducer(initialState, (builder)=>{
+    
+})
+export default Reducer
+
+--So now the data is sored in the redux
+
+For Subscription:
+--Need to import useSelector hook from "react-redux" and create like this
+Ex:
+import { useSelector } from "react-redux";
+const App = ()=>{
+  let Name = useSelector((state)=>{
+    return state.Name	//Here we need to get only the required data 
+  })
+return(
+  <>
+  <p>Name = {Name}</p>
+  </>
+)
+}
+export default App
+
+For dispatch:
+--We need to import useDispatch from "react-redux" and write like this
+Ex:
+import { useSelector,useDispatch } from "react-redux";
+const App = ()=>{
+  let Name = useSelector((state)=>{
+    return state.Name
+  })
+  let dispatch = useDispatch();
+return(
+  <>
+  <p>Name = {Name}</p>
+  <button onClick={()=>{dispatch({type:"change_Name",payload:"b"})}}> Change Name</button>
+  </>
+)
+}
+export default App
+--Now dispatch is issued
+
+For handling in reducer:
+--Handling is done by like this in reducer
+Ex:
+import { createReducer } from "@reduxjs/toolkit"
+let initialState = {
+Name:"a",Age:10
+}
+const Reducer = createReducer(initialState, (builder)=>{
+    builder.addCase("change_Name",(state,action)=>{
+        state.Name = action.payload
+    })
+
+    builder.addCase("change_Age",(state,action)=>{
+        state.Age = action.payload
+    })
+
+})
+export default Reducer
+
+--Here how many actions we want to handel that many addCase methods we have to create
